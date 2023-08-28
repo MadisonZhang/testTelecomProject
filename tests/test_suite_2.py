@@ -1,6 +1,5 @@
 import time
-from utilities.constants import TEST_SITE_URL, VALID_FIRST_NAME, VALID_LAST_NAME, VALID_EMAIL, VALID_ADDRESS, \
-    VALID_TEL_NUMBER, NUMBER_NAME, SPECIAL_CHARAC_NAME, INVALID_EMAIL, INVALID_ADDRESS, LETTER_TEL, SPECIAL_CHARAC_TEL
+from utilities.constants import TEST_SITE_URL, NUMBER_NAME, SPECIAL_CHARAC_NAME, INVALID_EMAIL, INVALID_ADDRESS, LETTER_TEL, SPECIAL_CHARAC_TEL
 from utilities.page_objects.add_customer_page import AddCustomerPage
 from utilities.page_objects.index_page import IndexPage
 
