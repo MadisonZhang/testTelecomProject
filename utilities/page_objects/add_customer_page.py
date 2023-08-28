@@ -11,7 +11,14 @@ class AddCustomerPage(BasePage):
     ADDRESS = (By.XPATH, "//textarea[@name='addr']") # special character not allowed
     TEL_NUMBER = (By.ID, "telephoneno") # only numbers are allowed
     SUBMIT_BUTTON = (By.NAME, "submit")
-    RESET_BUTTON = (By.XPATH, "//li[@input='reset'")
+    RESET_BUTTON = (By.XPATH, "//section[@id='main']/div/form/div/div[9]/ul/li[2]/input")
+
+    FN_ALERT = (By.XPATH, "//label[@id='message']")
+    LN_ALERT = (By.XPATH, "//label[@id='message50']")
+    EMAIL_ALERT = (By.XPATH, "//label[@id='message9']")
+    ADDRESS_ALERT = (By.XPATH, "//label[@id='message3']")
+    TEL_ALERT = (By.XPATH, "//label[@id='message7']")
+
 
     def click_background_done(self):
         self.explicitly_wait_and_find_element(MAX_WAIT_INTERVAL, self.BACKGROUND_CHECK_DONE).click()
@@ -39,3 +46,23 @@ class AddCustomerPage(BasePage):
 
     def click_reset_button(self):
         self.explicitly_wait_and_find_element(MAX_WAIT_INTERVAL, self.RESET_BUTTON).click()
+
+    def invalid_fn_alert(self):
+        return self.explicitly_wait_and_find_element(MAX_WAIT_INTERVAL, self.FN_ALERT).text
+
+    def invalid_ln_alert(self):
+        return self.explicitly_wait_and_find_element(MAX_WAIT_INTERVAL, self.LN_ALERT).text
+
+    def invalid_email_alert(self):
+        return self.explicitly_wait_and_find_element(MAX_WAIT_INTERVAL, self.EMAIL_ALERT).text
+
+    def invalid_address_alert(self):
+        return self.explicitly_wait_and_find_element(MAX_WAIT_INTERVAL, self.ADDRESS_ALERT).text
+
+    def invalid_tel_alert(self):
+        return self.explicitly_wait_and_find_element(MAX_WAIT_INTERVAL, self.TEL_ALERT).text
+
+    def clear_tel_field(self):
+        self.explicitly_wait_and_find_element(MAX_WAIT_INTERVAL, self.TEL_NUMBER).clear()
+    def invalid_customer_info_alert(self):
+        return self.explicitly_wait_alert(MAX_WAIT_INTERVAL).text
