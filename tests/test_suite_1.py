@@ -1,3 +1,4 @@
+from test_units import *
 import pytest
 
 from utilities.constants import TEST_SITE_URL, VALID_FIRST_NAME, VALID_LAST_NAME, VALID_EMAIL, VALID_ADDRESS, \

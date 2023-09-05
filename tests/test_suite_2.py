@@ -1,3 +1,4 @@
+from test_units import *
 import time
 from utilities.constants import TEST_SITE_URL, NUMBER_NAME, SPECIAL_CHARAC_NAME, INVALID_EMAIL, INVALID_ADDRESS, LETTER_TEL, SPECIAL_CHARAC_TEL
 from utilities.page_objects.add_customer_page import AddCustomerPage

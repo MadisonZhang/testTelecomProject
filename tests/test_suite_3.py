@@ -1,3 +1,4 @@
+from test_units import *
 from utilities.constants import TEST_SITE_URL, LETTER_TEL, SPECIAL_CHARAC_TEL
 from utilities.page_objects.add_tariff_page import AddTariffPlan
 from utilities.page_objects.index_page import IndexPage
