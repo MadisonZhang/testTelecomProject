@@ -116,6 +116,7 @@ class TestTelecomProject_1:
         assert plan_assigned_label == "Congratulation Tariff Plan assigned"
         # end of test case 3
 
+    # Test case 4 (Creating billing to designated customer)
     @pytest.mark.run(order=4)
     def test_pay_billing(self,driver):
         print("Test Case 4 - Self ID:", id(self))
