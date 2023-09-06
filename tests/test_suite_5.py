@@ -5,7 +5,7 @@ from utilities.constants import TEST_SITE_URL, MADE_UP_CUSTOMER_ID, SPECIAL_CHAR
     LETTER_CUSTOMER_ID, PAY_BILLING_CUSTOMER_LOOK_UP_URL
 from utilities.page_objects.customer_look_up_page import CustomerLookUp
 from utilities.page_objects.index_page import IndexPage
-
+from selenium.common.exceptions import TimeoutException
 
 class TestTelecomProject_5:
     # Test case 1: Verifying only valid customer id will be accepted
@@ -14,13 +14,16 @@ class TestTelecomProject_5:
         index_page = IndexPage(driver)
         index_page.navigate_to(TEST_SITE_URL)
         index_page.wait_and_click_billing()
-        # in case of ads pop-out, refresh the page and click again
-        driver.refresh()
-        index_page.wait_and_click_billing()
+        try:
+            customer_look_up_page = CustomerLookUp(driver)
+            customer_look_up_page.fill_customer_id("")
+        except TimeoutException:
+            driver.refresh()
+            index_page.wait_and_click_billing()
+            customer_look_up_page = CustomerLookUp(driver)
+            customer_look_up_page.fill_customer_id("")
 
-        customer_look_up_page = CustomerLookUp(driver)
         # Blank customer id will trigger warning and cannot be submitted
-        customer_look_up_page.fill_customer_id("")
         customer_look_up_page.click_background()
         customer_id_warning_msg = customer_look_up_page.get_warning_msg()
         assert customer_id_warning_msg.__contains__("blank"), "Number must not be blank"

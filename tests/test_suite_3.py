@@ -3,7 +3,7 @@ from utilities.constants import TEST_SITE_URL, LETTER_TEL, SPECIAL_CHARAC_TEL
 from utilities.page_objects.add_tariff_page import AddTariffPlan
 from utilities.page_objects.index_page import IndexPage
 import time
-
+from selenium.common.exceptions import TimeoutException
 
 class TestTelecomProject_3:
     # Test case 1 (Verifying adding new plan: all fields have to be filled)
@@ -12,13 +12,17 @@ class TestTelecomProject_3:
         index_page = IndexPage(driver)
         index_page.navigate_to(TEST_SITE_URL)
         index_page.wait_and_click_add_plan_button()
-        # in case of ads pop-out, refresh the page and click again
-        driver.refresh()
-        index_page.wait_and_click_add_plan_button()
-
+        try:
+            add_tariff_page = AddTariffPlan(driver)
+            add_tariff_page.fill_monthly_rental("")
+        except TimeoutException:
+            # in case of ads pop-out, refresh the page and click again
+            driver.refresh()
+            index_page.wait_and_click_add_plan_button()
+            add_tariff_page = AddTariffPlan(driver)
+            add_tariff_page.fill_monthly_rental("")
         add_tariff_page = AddTariffPlan(driver)
         # Blank field, characters, special characters can not be accepted
-        add_tariff_page.fill_monthly_rental("")
         add_tariff_page.fill_free_local_min(LETTER_TEL)
         add_tariff_page.fill_free_inter_min(SPECIAL_CHARAC_TEL)
         add_tariff_page.fill_free_sms(LETTER_TEL)

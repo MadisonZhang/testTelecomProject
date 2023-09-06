@@ -3,7 +3,7 @@ import time
 from utilities.constants import TEST_SITE_URL, NUMBER_NAME, SPECIAL_CHARAC_NAME, INVALID_EMAIL, INVALID_ADDRESS, LETTER_TEL, SPECIAL_CHARAC_TEL
 from utilities.page_objects.add_customer_page import AddCustomerPage
 from utilities.page_objects.index_page import IndexPage
-
+from selenium.common.exceptions import TimeoutException
 
 class TestTelecomProject_2:
     # Test case 1 (Verifying adding new customer: all fields have to be filled)
@@ -13,12 +13,16 @@ class TestTelecomProject_2:
         index_page = IndexPage(driver)
         index_page.navigate_to(TEST_SITE_URL)
         index_page.wait_and_click_add_customer_button()
-        # in case of ads pop-out, refresh the page and click again
-        driver.refresh()
-        index_page.wait_and_click_add_customer_button()
+        try:
+            add_customer_page = AddCustomerPage(driver)
+            add_customer_page.click_background_done()
+        except TimeoutException:
+            # in case of ads pop-out, refresh the page and click again
+            driver.refresh()
+            index_page.wait_and_click_add_customer_button()
+            add_customer_page = AddCustomerPage(driver)
+            add_customer_page.click_background_done()
 
-        add_customer_page = AddCustomerPage(driver)
-        # Invalid fill will trigger warning and cannot be submitted
         add_customer_page.fill_customer_first_name(NUMBER_NAME)
         add_customer_page.fill_customer_last_name(SPECIAL_CHARAC_NAME)
         time.sleep(1)

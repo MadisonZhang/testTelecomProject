@@ -16,6 +16,7 @@ from utilities.page_objects.add_tariff_page import AddTariffPlan
 from utilities.page_objects.add_tariff_successful_page import AddTariffSuccessfulPage
 from utilities.page_objects.index_page import IndexPage
 import time
+from selenium.common.exceptions import TimeoutException
 
 class TestTelecomProject_1:
     # Test case 1 (Verifying adding new customer)
@@ -26,12 +27,15 @@ class TestTelecomProject_1:
         index_page = IndexPage(driver)
         index_page.navigate_to(TEST_SITE_URL)
         index_page.wait_and_click_add_customer_button()
+        try:
+            add_customer_page = AddCustomerPage(driver)
+            add_customer_page.click_background_done()
+        except TimeoutException:
         # in case of ads pop-out, refresh the page and click again
-        driver.refresh()
-        index_page.wait_and_click_add_customer_button()
-
-        add_customer_page = AddCustomerPage(driver)
-        add_customer_page.click_background_done()
+            driver.refresh()
+            index_page.wait_and_click_add_customer_button()
+            add_customer_page = AddCustomerPage(driver)
+            add_customer_page.click_background_done()
         add_customer_page.fill_customer_first_name(VALID_FIRST_NAME)
         add_customer_page.fill_customer_last_name(VALID_LAST_NAME)
         add_customer_page.fill_customer_email(VALID_EMAIL)
@@ -55,9 +59,15 @@ class TestTelecomProject_1:
 
         index_page = IndexPage(driver)
         index_page.wait_and_click_add_plan_button()
-
-        add_tariff_page = AddTariffPlan(driver)
-        add_tariff_page.fill_monthly_rental(VALID_MONTHLY_RENTAL)
+        try:
+            add_tariff_page = AddTariffPlan(driver)
+            add_tariff_page.fill_monthly_rental(VALID_MONTHLY_RENTAL)
+        except TimeoutException:
+        # in case of ads pop-out, refresh the page and click again
+            driver.refresh()
+            index_page.wait_and_click_add_plan_button()
+            add_tariff_page = AddTariffPlan(driver)
+            add_tariff_page.fill_monthly_rental(VALID_MONTHLY_RENTAL)
         add_tariff_page.fill_free_local_min(VALID_FREE_LOCAL_MINUTES)
         add_tariff_page.fill_free_inter_min(VALID_FREE_INTERNATIONAL_MINUTES)
         add_tariff_page.fill_free_sms(VALID_FREE_SMS_PACK)
@@ -78,15 +88,17 @@ class TestTelecomProject_1:
         print("Test Case 3 - Self ID:", id(self))
         add_plan_successful_page = AddTariffSuccessfulPage(driver)
         add_plan_successful_page.click_navigate_to_home_button()
-        # in case of ads pop-out, refresh the page and click again
-        # driver.refresh()
-        # add_plan_successful_page.click_navigate_to_home_button()
-
         index_page = IndexPage(driver)
         index_page.wait_and_click_add_plan_to_customer()
-
-        customer_look_up_page = CustomerLookUp(driver)
-        customer_look_up_page.fill_customer_id(TestTelecomProject_1.customer_id_label)
+        try:
+            customer_look_up_page = CustomerLookUp(driver)
+            customer_look_up_page.fill_customer_id(TestTelecomProject_1.customer_id_label)
+        except TimeoutException:
+        # in case of ads pop-out, refresh the page and click again
+            driver.refresh()
+            index_page.wait_and_click_add_plan_to_customer()
+            customer_look_up_page = CustomerLookUp(driver)
+            customer_look_up_page.fill_customer_id(TestTelecomProject_1.customer_id_label)
         time.sleep(5)
         customer_look_up_page.click_submit_button()
 
@@ -125,9 +137,14 @@ class TestTelecomProject_1:
 
         index_page = IndexPage(driver)
         index_page.wait_and_click_billing()
-
-        customer_look_up_page = CustomerLookUp(driver)
-        customer_look_up_page.fill_customer_id(TestTelecomProject_1.customer_id_label)
+        try:
+            customer_look_up_page = CustomerLookUp(driver)
+            customer_look_up_page.fill_customer_id(TestTelecomProject_1.customer_id_label)
+        except TimeoutException:
+            driver.refresh()
+            index_page.wait_and_click_billing()
+            customer_look_up_page = CustomerLookUp(driver)
+            customer_look_up_page.fill_customer_id(TestTelecomProject_1.customer_id_label)
         time.sleep(5)
         customer_look_up_page.click_submit_button()
 
